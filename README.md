@@ -1,6 +1,7 @@
+<p align="center">
+<img width="80" lt="logo" src="./src/assets/logo.svg" style="box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px; border-radius: 20px;">
+</p>
 
-
-![logo](./src/assets/logo.svg)
 # JSON Formatter
 A lite web app to format and preview json string.
 
