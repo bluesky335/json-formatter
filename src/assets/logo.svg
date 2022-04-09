@@ -1,0 +1,10 @@
+<svg width="64px" height="64px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="JSON">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="32" height="32" rx="8"></rect>
+            <g id="J" transform="translate(9.000000, 5.000000)" fill="#41B883" fill-rule="nonzero">
+                <path d="M10.08,2.84217094e-14 L10.08,14.37 C10.08,15.9 9.81,17.01 9.27,17.7 C8.73,18.39 7.86,18.75 6.69,18.75 C4.56,18.75 3.51,17.52 3.51,15.06 L3.51,14.4 L0,14.4 L0,15.09 C0,17.19 0.57,18.84 1.71,20.04 C2.82,21.24 4.47,21.84 6.63,21.84 C9.12,21.84 10.92,21.21 12.06,19.95 C13.08,18.75 13.59,16.95 13.59,14.49 L13.59,2.84217094e-14 L10.08,2.84217094e-14 Z" id="路径"></path>
+            </g>
+        </g>
+    </g>
+</svg>
