@@ -2,7 +2,7 @@
 
 ![logo](./src/assets/logo.svg)
 # JSON Formatter
-a lite web app to format and preview json string.
+A lite web app to format and preview json string.
 
 ![./screnshot/screnshot.png](./screenshot/screenshot.png)
 ## Vue 3 + Typescript + Vite
