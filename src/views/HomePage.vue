@@ -7,13 +7,13 @@ const text = ref('');
 
 const strings = ref({
   en: {
-    title: 'Json Format',
+    title: 'SON Format',
     copy: 'Copy',
     reduce: 'Reduce',
     format: 'Format',
   },
   cn: {
-    title: 'Json 格式化',
+    title: 'SON 格式化',
     copy: '复制',
     reduce: '压缩',
     format: '格式化',
@@ -49,7 +49,7 @@ function copyJson() {
 <template>
   <div class="editor">
     <div class="title">
-      {{ local.title }}
+      <span style=" color:#41B883;font-size: 3.5rem;">J</span>{{ local.title }}
     </div>
     <div class="main">
       <div
