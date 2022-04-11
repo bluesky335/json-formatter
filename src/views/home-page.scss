@@ -6,7 +6,8 @@
 .editor {
     text-align: left;
   border-radius: 1rem;
-  height: calc(100vh - 200px);
+  height: 90vh;
+  max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,13 +20,12 @@
     height: calc(100% - 5rem);
     width: 100%;
     > * {
-      width: calc(50%);
-      overflow-y: scroll;
+      width: 50%;
     }
     .json-editor {
       display: flex;
       flex-direction: column;
-      box-shadow: rgba(0, 0, 0, 0.2) 0 0 10px inset;
+      box-shadow: rgba(0, 0, 0, 0.2) 0 0 15px inset;
 
       .tool-bar {
         height: 3rem;
