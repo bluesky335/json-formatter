@@ -1,11 +1,16 @@
 <p align="center">
-<img width="80" lt="logo" src="./src/assets/logo.svg" style="box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px; border-radius: 20px;">
+  <img width="80" lt="logo" src="./src/assets/logo.svg" class="logo">
 </p>
 
 # JSON Formatter
 A lite web app to format and preview json string.
 
-![./screnshot/screnshot.png](./screenshot/screenshot.png)
+**[Try it on line](https://bluesky335.github.io/json-formatter-website/)**
+
+<p align="center">
+  <img width="800" lt="logo" src="./screenshot/screenshot.png" class="logo">
+</p>
+
 ## Vue 3 + Typescript + Vite
 This project is built with **[Vue 3](https://vuejs.org/) + [Typescript](https://www.typescriptlang.org/) + [Vite](https://vitejs.dev/)**
 
@@ -19,7 +24,7 @@ View at [Docker Hub](https://hub.docker.com/r/bluesky335/json-formatter)
 
 ## Start up
 
-`npm instal`
+`npm install`
 
 `npm run dev`
 
