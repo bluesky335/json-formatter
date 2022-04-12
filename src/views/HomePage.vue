@@ -49,7 +49,15 @@ function copyJson() {
 <template>
   <div class="editor">
     <div class="title">
-      <span style=" color:#41B883;font-size: 3.5rem;">J</span>{{ local.title }}
+      <div><span style=" color:#41B883;font-size: 3.5rem;">J</span>{{ local.title }}</div>
+      <div>
+        <a href="https://github.com/bluesky335/json-formatter">
+          <img
+            src="/src/assets/github.svg"
+            alt="github"
+          >
+        </a>
+      </div>
     </div>
     <div class="main">
       <div
