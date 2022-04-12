@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build4github": "vue-tsc --noEmit && vite build --base=/json-formatter-website/",
     "preview": "vite preview"
   },
   "dependencies": {
