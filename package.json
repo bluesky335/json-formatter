@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "codemirror": "^5.65.2",
     "vue": "^3.2.31",
     "vue-class-component": "^8.0.0-rc.1"
   },

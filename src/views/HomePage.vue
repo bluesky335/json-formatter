@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 
-import { ref, computed } from 'vue';
+import {
+  ref, computed,
+} from 'vue';
 import JsonPreview from '../components/JsonPreview.vue';
+import CodeMirrorVue from '../components/CodeMirror.vue';
 
 const text = ref('');
+const isOpen = ref(true);
 
 const strings = ref({
   en: {
@@ -27,17 +31,19 @@ const local = computed(() => {
   return strings.value.en;
 });
 
+const codeMirror = ref<any|null>(null);
+
 function minJson() {
   const obj = JSON.parse(text.value);
   if (obj !== undefined) {
-    text.value = JSON.stringify(obj);
+    codeMirror.value.setValue(JSON.stringify(obj));
   }
 }
 
 function formatJson() {
   const obj = JSON.parse(text.value);
   if (obj !== undefined) {
-    text.value = JSON.stringify(obj, null, '  ');
+    codeMirror.value.setValue(JSON.stringify(obj, null, '  '));
   }
 }
 
@@ -59,7 +65,10 @@ function copyJson() {
         </a>
       </div>
     </div>
-    <div class="main">
+    <div
+      class="main"
+      :class="isOpen ? 'main-open' : 'main-close'"
+    >
       <div
         class="json-editor"
       >
@@ -74,15 +83,24 @@ function copyJson() {
             {{ local.copy }}
           </button>
         </div>
-        <textarea
+        <CodeMirrorVue
+          ref="codeMirror"
           v-model="text"
+          class="code-editor"
         />
       </div>
-      <div>
-        <JsonPreview
-          :json="text"
-          class="json-preview"
-        />
+      <JsonPreview
+        :json="text"
+        class="json-preview"
+      />
+      <div
+        class="togle-button"
+        @click="isOpen = !isOpen"
+      >
+        <img
+          :src="isOpen ? '/src/assets/fill-width.svg' :'/src/assets/small-width.svg' "
+          alt=""
+        >
       </div>
     </div>
   </div>

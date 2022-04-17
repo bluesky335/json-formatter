@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    'class-methods-use-this': 'off',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     'no-unused-vars': 'off',
