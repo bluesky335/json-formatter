@@ -13,34 +13,22 @@
     </transition>
   </div>
 </template>
-<script lang="ts" setup>import { onMounted, ref } from 'vue';
+<script lang="ts" setup>import { ref } from 'vue';
 
 interface Props {
   duration:number
 }
 const props = withDefaults(defineProps<Props>(), { duration: 0.3 });
 const box = ref<HTMLElement | null>(null);
-const slotItem = ref<HTMLElement | null>(null);
-onMounted(() => {
-  if (box.value && slotItem.value) {
-    if (slotItem.value) {
-      if (box.value.scrollHeight !== slotItem.value.scrollHeight) {
-        box.value.style.height = `${slotItem.value.scrollHeight}px`;
-      }
-    } else {
-      box.value.style.height = '';
-    }
-  }
-});
 
-function enter(el:HTMLElement, doen:()=>void) {
+function enter(el:Element, doen:()=>void) {
   if (box.value) {
     box.value.style.height = '0';
     box.value.style.overflow = 'hidden';
   }
   doen();
 }
-function leave(el:HTMLElement, doen:()=>void) {
+function leave(el:Element, doen:()=>void) {
   const { height } = window.getComputedStyle(el);
   el.setAttribute('style', `transition:all ${props.duration}s ease-in-out; height:${height} !important;overflow: hidden;`);
   setTimeout(() => {
@@ -51,7 +39,8 @@ function leave(el:HTMLElement, doen:()=>void) {
     doen();
   }, props.duration * 1000 + 10);
 }
-function afterEnter(el:HTMLElement) {
+function afterEnter(element:Element) {
+  const el = element as HTMLElement;
   if (!box.value) {
     return;
   }
@@ -61,7 +50,6 @@ function afterEnter(el:HTMLElement) {
       return;
     }
     const { height } = window.getComputedStyle(el);
-    console.log(height, el.scrollHeight, el.offsetHeight);
     box.value.style.height = height;
     setTimeout(() => {
       if (box.value) {
