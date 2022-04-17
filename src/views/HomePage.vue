@@ -99,6 +99,7 @@ function copyJson() {
       >
         <img
           v-if="isOpen"
+          src="/src/assets/fill-width.svg"
         >
         <img
           v-else
