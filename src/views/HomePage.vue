@@ -98,8 +98,11 @@ function copyJson() {
         @click="isOpen = !isOpen"
       >
         <img
-          :src="isOpen ? '/src/assets/fill-width.svg' :'/src/assets/small-width.svg' "
-          alt=""
+          v-if="isOpen"
+        >
+        <img
+          v-else
+          src="/src/assets/small-width.svg"
         >
       </div>
     </div>
