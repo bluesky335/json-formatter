@@ -35,6 +35,8 @@ jobs:
         run: npm install && npm run build
       - name: 设置 pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: 上传文件到制品库
         uses: actions/upload-pages-artifact@v3
         with:
