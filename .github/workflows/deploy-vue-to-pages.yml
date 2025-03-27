@@ -23,25 +23,39 @@ concurrency:
 
 jobs:
   # Single deploy job since we're just deploying
-  deploy:
+  build:
+    name: 编译项目
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-24.04
     steps:
       - name: checkout 代码
         uses: actions/checkout@v4
       - name: 编译项目
         run: npm install && npm run build
-      - name: 设置 pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - name: 上传文件到制品库
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
           path: './dist'
+
+  setup-pages:
+    name: 配置 GitHub Pages
+    runs-on: ubuntu-24.04
+    steps:
+      - name: 设置 GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+  deploy:
+    name: 部署到 GitHub Pages
+    needs: [build, setup-pages]
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    steps:
       - name: 部署到 GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
