@@ -32,7 +32,7 @@ jobs:
       - name: checkout 代码
         uses: actions/checkout@v4
       - name: 编译项目
-      - run: npm install && npm run build
+        run: npm install && npm run build
       - name: 设置 pages
         uses: actions/configure-pages@v5
       - name: 上传文件到制品库
