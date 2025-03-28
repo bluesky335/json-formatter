@@ -110,5 +110,5 @@ function copyJson() {
   </div>
 </template>
 <style lang="scss" scoped>
-@import './home-page.scss'
+@use './home-page.scss' as *
 </style>

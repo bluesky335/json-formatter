@@ -3,6 +3,7 @@
 </p>
 
 # JSON Formatter
+
 A lite web app to format and preview json string.
 
 **[Try it on line](https://bluesky335.github.io/json-formatter-website/)**
@@ -12,6 +13,7 @@ A lite web app to format and preview json string.
 </p>
 
 ## Vue 3 + Typescript + Vite
+
 This project is built with **[Vue 3](https://vuejs.org/) + [Typescript](https://www.typescriptlang.org/) + [Vite](https://vitejs.dev/)**
 
 ## Docker image
@@ -29,4 +31,5 @@ View at [Docker Hub](https://hub.docker.com/r/bluesky335/json-formatter)
 `npm run dev`
 
 ## License
+
 [MIT License](./LICENSE)
