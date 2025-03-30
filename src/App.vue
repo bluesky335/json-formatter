@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import HomePage from './views/HomePage.vue';
+import HomePage from "./views/HomePage.vue";
 </script>
 <template>
-  <div>
-    <HomePage />
-  </div>
+  <HomePage />
 </template>
 
 <style>
-html,body {
-  padding:  0;
+html,
+body {
+  padding: 0;
   margin: 0;
 }
 #app {
@@ -19,5 +18,6 @@ html,body {
   text-align: center;
   color: #2c3e50;
   min-width: 500px;
+  height: 100vh;
 }
 </style>

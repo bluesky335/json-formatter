@@ -1,9 +1,7 @@
 <template>
   <span class="json-node">
-    <template
-      v-if="showKey && jsonKey != null"
-    >
-      <span class="json-key">  {{ JSON.stringify(jsonKey) }} </span>
+    <template v-if="showKey && jsonKey != null">
+      <span class="json-key"> {{ JSON.stringify(jsonKey) }} </span>
       <span class="json-colon"> : </span>
     </template>
 
@@ -12,39 +10,33 @@
         v-if="isJsonString"
         class="action-button type-json-string"
         :class="{
-          'type-json-string-close':jsonStringObject !== null,
-          'type-json-string-open':jsonStringObject === null,
+          'type-json-string-close': jsonStringObject !== null,
+          'type-json-string-open': jsonStringObject === null,
         }"
         @click="openNewObject"
       />
       <span
         class="json-base-value"
-        :class="{'type-bool':type === 'boolean',
-                 'type-null':type === 'null',
-                 'type-number':type === 'number',
-                 'type-string':type === 'string'}"
+        :class="{
+          'type-bool': type === 'boolean',
+          'type-null': type === 'null',
+          'type-number': type === 'number',
+          'type-string': type === 'string',
+        }"
       >
         {{ JSON.stringify(jsonValue) }}
       </span>
-      <span
-        v-if="!isLastItem"
-      > ,</span>
+      <span v-if="!isLastItem"> ,</span>
     </template>
 
-    <template
-      v-else
-    >
-      <span
-        v-if="isArray"
-      >[</span>
-      <span
-        v-else
-      >{</span>
+    <template v-else>
+      <span v-if="isArray">[</span>
+      <span v-else>{</span>
       <span
         class="action-button"
         :class="{
-          'json-subnode-close':showSubNode,
-          'json-subnode-open':!showSubNode
+          'json-subnode-close': showSubNode,
+          'json-subnode-open': !showSubNode,
         }"
         @click="showSubNode = !showSubNode"
       />
@@ -52,22 +44,16 @@
         class="json-subnode-item-count"
         :data-array-length="`${jsonValueKeys.length} items`"
       />
-      <span
-        v-show="!showSubNode"
-      >...&nbsp;&nbsp;
+      <span v-show="!showSubNode"
+        >...&nbsp;&nbsp;
         <span v-if="isArray">]</span>
         <span v-else>}</span>
-        <span
-          v-if="!isLastItem"
-        > ,</span>
+        <span v-if="!isLastItem"> ,</span>
       </span>
       <CollapseItemVue :duration="0.3">
-        <span
-          v-show="showSubNode"
-          class="json-child-list"
-        >
+        <span v-show="showSubNode" class="json-child-list">
           <span
-            v-for="(key,index) in jsonValueKeys"
+            v-for="(key, index) in jsonValueKeys"
             :key="key"
             class="json-child-item"
           >
@@ -75,132 +61,126 @@
               :json-key="key"
               :json-value="jsonValue[key]"
               :show-key="!isArray"
-              :is-last-item="(jsonValueKeys.length > 0 && index == jsonValueKeys.length - 1)"
+              :is-last-item="
+                jsonValueKeys.length > 0 && index == jsonValueKeys.length - 1
+              "
             />
           </span>
         </span>
       </CollapseItemVue>
-      <template
-        v-if="showSubNode "
-      >
+      <template v-if="showSubNode">
         <span v-if="isArray">]</span>
         <span v-else>}</span>
-        <span
-          v-if="!isLastItem"
-        > ,</span>
+        <span v-if="!isLastItem"> ,</span>
       </template>
     </template>
 
     <CollapseItemVue :duration="0.3">
-      <div
-        v-if="jsonStringObject"
-        class="json-string-object-node"
-      >
+      <div v-if="jsonStringObject" class="json-string-object-node">
         <div>
           <span
             v-if="isJsonString"
             class="action-button type-json-string"
             :class="{
-              'type-json-string-close':jsonStringObject !== null,
-              'type-json-string-open':jsonStringObject === null,
+              'type-json-string-close': jsonStringObject !== null,
+              'type-json-string-open': jsonStringObject === null,
             }"
             @click="openNewObject"
           />
         </div>
-        <JsonNode
-          :json-value="jsonStringObject"
-        />
+        <JsonNode :json-value="jsonStringObject" />
       </div>
-
     </CollapseItemVue>
-
   </span>
 </template>
 
-<script lang="ts">
-import { Vue, prop, Options } from 'vue-class-component';
-import getTypeOf, { JsonValueType } from '../utils/typeof';
-import CollapseItemVue from './CollapseItem.vue';
-
-class Props {
-  jsonKey = prop({ type: [Object, String, Number], default: null });
-
-  jsonValue = prop({ type: [Object, String, Number, Array, Date, Boolean], default: undefined });
-
-  showKey = prop({ type: Boolean, default: true });
-
-  isLastItem = prop({ type: Boolean, default: true });
+<script lang="ts" setup>
+import getTypeOf, { JsonValueType } from "../utils/typeof";
+import CollapseItemVue from "./CollapseItem.vue";
+import {
+  compile,
+  computed,
+  onMounted,
+  ref,
+  toValue,
+  watch,
+  withDefaults,
+} from "vue";
+interface Props {
+  jsonKey?: any;
+  jsonValue: any;
+  showKey?: boolean;
+  isLastItem?: boolean;
 }
 
-@Options({
-  components: {
-    CollapseItemVue,
-  },
-  watch: {
-    jsonValue() {
-      this.updateKeysAndType();
-    },
-  },
-})
-export default class JsonNode extends Vue.with(Props) {
-  type = JsonValueType.null;
+const props = withDefaults(defineProps<Props>(), {
+  showKey: true,
+  islastItem: false,
+});
 
-  jsonValueKeys:string[] = [];
+const type = ref(JsonValueType.null);
 
-  showSubNode = true;
+const jsonValueKeys = ref<string[]>([]);
 
-  jsonStringObject:unknown | null = null;
+const showSubNode = ref(true);
 
-  mounted() {
-    this.updateKeysAndType();
+const jsonStringObject = ref<any>(null);
+const updateKeysAndType = () => {
+  if (props.jsonValue !== undefined) {
+    type.value = getTypeOf(props.jsonValue);
+    jsonValueKeys.value = Object.keys(toValue(props.jsonValue as any));
+  } else {
+    type.value = JsonValueType.null;
+    jsonValueKeys.value = [];
   }
+};
 
-  updateKeysAndType() {
-    if (this.jsonValue !== undefined) {
-      this.type = getTypeOf(this.jsonValue);
-      this.jsonValueKeys = Object.keys(this.jsonValue);
-    } else {
-      this.type = JsonValueType.null;
-      this.jsonValueKeys = [];
+watch(
+  () => props.jsonValue,
+  () => {
+    updateKeysAndType();
+  }
+);
+
+const openNewObject = () => {
+  if (jsonStringObject.value) {
+    jsonStringObject.value = null;
+  } else {
+    jsonStringObject.value = JSON.parse(props.jsonValue as string);
+  }
+};
+
+const isArray = computed(() => {
+  return type.value === JsonValueType.array;
+});
+
+const isObject = computed(() => {
+  return type.value === JsonValueType.object;
+});
+
+const isBaseValue = computed(() => {
+  return !(isArray.value || isObject.value);
+});
+
+const isJsonString = computed(() => {
+  if (type.value !== JsonValueType.string) {
+    return false;
+  }
+  try {
+    const obj = JSON.parse(props.jsonValue as string);
+    if (obj) {
+      const type = getTypeOf(obj);
+      return type === JsonValueType.array || type === JsonValueType.object;
     }
+    return false;
+  } catch {
+    return false;
   }
+});
 
-  openNewObject() {
-    if (this.jsonStringObject) {
-      this.jsonStringObject = null;
-    } else {
-      this.jsonStringObject = JSON.parse(this.jsonValue);
-    }
-  }
-
-  get isArray():boolean {
-    return this.type === JsonValueType.array;
-  }
-
-  get isObject():boolean {
-    return this.type === JsonValueType.object;
-  }
-
-  get isBaseValue():boolean {
-    return !(this.isArray || this.isObject);
-  }
-
-  get isJsonString():boolean {
-    if (this.type !== JsonValueType.string) {
-      return false;
-    }
-    try {
-      const obj = JSON.parse(this.jsonValue);
-      if (obj) {
-        const type = getTypeOf(obj);
-        return type === JsonValueType.array || type === JsonValueType.object;
-      }
-      return false;
-    } catch {
-      return false;
-    }
-  }
-}
+onMounted(() => {
+  updateKeysAndType();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -215,7 +195,7 @@ export default class JsonNode extends Vue.with(Props) {
     margin: 0 0 0 10px;
     border-radius: 17.5px;
     background-color: #ebebeb;
-    box-shadow: rgba(0, 0, 0, 0.231) 2px 2px 3px ;
+    box-shadow: rgba(0, 0, 0, 0.231) 2px 2px 3px;
     cursor: pointer;
   }
 }
@@ -231,14 +211,13 @@ export default class JsonNode extends Vue.with(Props) {
     font-size: 0.8rem;
     margin: 0 5px;
   }
-
 }
-.json-subnode-open{
+.json-subnode-open {
   &::before {
     content: "+";
   }
 }
-.json-subnode-close{
+.json-subnode-close {
   &::before {
     content: "-";
   }
@@ -258,39 +237,41 @@ export default class JsonNode extends Vue.with(Props) {
 
 .json-node {
   font-weight: bold;
+  word-break: keep-all;
+  white-space: nowrap;
 }
 .type-string {
-  color: #0DBC79;
+  color: #0dbc79;
 }
 .type-number {
-  color: #29B8DB;
+  color: #29b8db;
 }
 
 .type-null {
-  color: #D19A66;
+  color: #d19a66;
 }
 .type-bool {
-  color: #C678DD;
+  color: #c678dd;
 }
 .type-json-string {
   &::before {
-      content: '+';
-      transition: transform 0.3s linear,background-color 0.3s linear,;
-      margin-right: 10px;
-      color: white;
+    content: "+";
+    transition: transform 0.3s linear, background-color 0.3s linear;
+    margin-right: 10px;
+    color: white;
   }
 }
 .type-json-string-close {
-    &::before {
-      transform: rotate(45deg);
-      background-color: #dc544a;
-    }
+  &::before {
+    transform: rotate(45deg);
+    background-color: #dc544a;
+  }
 }
 .type-json-string-open {
-    &::before {
-      transform: rotate(0deg);
-      background-color: #29B8DB;
-    }
+  &::before {
+    transform: rotate(0deg);
+    background-color: #29b8db;
+  }
 }
 .json-base-value {
   position: relative;
@@ -299,10 +280,9 @@ export default class JsonNode extends Vue.with(Props) {
 .json-string-object-node {
   position: relative;
   border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .3) inset;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) inset;
   padding: 0 1rem;
-  margin: 0 1rem 0rem 1rem ;
+  margin: 0 1rem 0rem 1rem;
   background-color: white;
 }
-
 </style>

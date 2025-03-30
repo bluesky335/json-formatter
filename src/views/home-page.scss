@@ -1,115 +1,99 @@
 .title {
   font-size: 2.5rem;
   font-weight: 700;
-  height: 5rem;
-  display: flex;
-  padding: 0 1rem;
+  height: 80px;
   justify-content: space-between;
+  display: flex;
+  padding: 0 20px;
+  border-bottom: 1px solid #f0f0f0;
 }
-.editor {
+.json-formatter {
   text-align: left;
-  border-radius: 1rem;
-  height: 95vh;
-  max-height: calc(100vh - 50px);
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   margin: 0;
 
   .main {
-    justify-content: space-between;
-    align-items: stretch;
-    height: calc(100% - 5rem);
-    width: 100%;
-    position: relative;
-
-    .togle-button {
-      z-index: 100001;
-      cursor: pointer;
-      transition: left 0.3s ease-in-out;
-      border-radius: 0.5rem;
-      position:absolute;
-      padding: 0 5px;
-      height: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      top: 0.5rem;
-      img {
-        width: 2rem;
-      }
-    }
-
-    .json-editor {
-      position: absolute;
-      display: flex;
-      transition: width 0.3s ease-in-out;
-      flex-direction: column;
-      box-shadow: rgba(0, 0, 0, 0.2) 0 0 15px inset;
+    display: flex;
+    height: calc(100% - 80px);
+    .code-editor-wrap {
+      resize: horizontal;
       height: 100%;
-
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
       .tool-bar {
-        height: 3rem;
+        flex-shrink: 0;
+        min-width: 300px;
+        overflow-x: auto;
+        padding: 0 1rem;
+        gap: 10px;
+        height: 50px;
         display: flex;
+        justify-content: left;
         align-items: center;
-        padding-left: 1rem;
-        border-bottom: 1px solid #ddd;
-        > * {
-          margin-left: 10px;
-        }
-        button {
-          border: none;
-          background-color: white;
-          box-shadow: #bbb 1px 1px 5px;
-          border-radius: 3px;
-          font-size: 0.9rem;
-          cursor: pointer;
-          &:hover {
-            background-color: #ddd;
-          }
-        }
+        border-bottom: 1px solid #f0f0f0;
       }
-
       .code-editor {
-        height: calc(100% - 3rem);
+        flex-grow: 1;
+        overflow: scroll;
       }
     }
-    .json-preview {
-      background-color: white;
-      position: absolute;
-      transition: left 0.3s ease-in-out;
-      font-size: 1rem;
-      border: 1px solid #ddd;
-      padding: 4rem 1rem 1rem 1rem;
-      height: calc(100% - 5rem - 2px);
-      z-index: 100000;
-    }
-  }
-  .main-open {
-    .togle-button {
-      left: calc(41% + 1rem);
-    }
-    .json-editor {
-      width: 41%;
-    }
-    .json-preview {
-      left: 41%;
-      right: 0;
-    }
-  }
 
-  .main-close {
+    .code-editor-wrap-transition {
+      transition: all 0.4s ease-out;
+    }
+
+    .json-preview-wrap {
+      flex-grow: 1;
+      height: calc(100% - 80px);
+      position: relative;
+      padding: 50px 0px 30px 30px;
+      border-left: 1px solid #f0f0f0;
+    }
     .togle-button {
-      left: calc(0% + 1rem);
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      border: 1px solid #ededed;
+      border-radius: 10px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      transition: all 0.3s;
+      cursor: pointer;
+      &:hover {
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+      }
+      img {
+        user-select: none;
+        width: 90%;
+        height: 90%;
+      }
     }
-    .json-editor {
-      width: 41%;
-    }
-    .json-preview {
+    .drag-edge {
+      position: absolute;
       left: 0;
-      right: 0;
+      top: 0;
+      bottom: 0;
     }
+  }
+}
+
+.action-button {
+  cursor: pointer;
+  border: none;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  &:hover {
+    // background-color: #eee;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
   }
 }

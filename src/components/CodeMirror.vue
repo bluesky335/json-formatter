@@ -1,86 +1,78 @@
 <script lang="ts" setup>
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import CodeMirror from 'codemirror';
+import { basicSetup } from "codemirror";
+import { EditorView, keymap } from "@codemirror/view";
+import { indentOnInput } from "@codemirror/language";
+import { indentWithTab } from "@codemirror/commands";
+import { javascript } from "@codemirror/lang-javascript";
 
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/javascript/javascript.js';
-// 折叠资源引入:开始
-import 'codemirror/addon/fold/foldgutter.css';
-import 'codemirror/addon/fold/foldcode.js';
-import 'codemirror/addon/fold/brace-fold.js';
-import 'codemirror/addon/fold/comment-fold.js';
-import 'codemirror/addon/fold/indent-fold.js';
-import 'codemirror/addon/fold/foldgutter.js';
-// 启用placeholder
-import 'codemirror/addon/display/placeholder.js';
-import 'codemirror/addon/selection/active-line.js';
+import { onMounted, ref, watch } from "vue";
 
-import {
-  onBeforeUnmount, onMounted, ref,
-} from 'vue';
+const codeEditorNode = ref(undefined);
 
-const codeEditorNode = ref(null);
+let editor: EditorView | null = null;
 
-let editor:any | null = null;
 interface Props {
-    modelValue:string
+  modelValue: string;
 }
-
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: '',
+  modelValue: "",
 });
 
-const emits = defineEmits<{(e:'update:modelValue', value:string):void}>();
+const emits = defineEmits<{ (e: "update:modelValue", value: string): void }>();
+
+let changeTimer = -1;
+
+const onDocChange = () => {
+  const newDoc = editor?.state.doc.toString();
+  if (newDoc) emits("update:modelValue", newDoc);
+};
+
+function setValue(text: string) {
+  editor?.dispatch({
+    changes: { from: 0, to: editor.state.doc.length, insert: text },
+  });
+}
 
 onMounted(() => {
-  editor = CodeMirror.fromTextArea(codeEditorNode.value, {
-    value: props.modelValue,
-    mode: 'javascript',
-    // indentWithTabs: false, // 在缩进时，是否需要把 n*tab宽度个空格替换成n个tab字符，默认为false
-    smartIndent: true, // 自动缩进，设置是否根据上下文自动缩进（和上一行相同的缩进量）。默认为true
-    lineNumbers: true, // 是否在编辑器左侧显示行号
-    matchBrackets: true, // 括号匹配
-    // 启用代码折叠相关功能:开始
-    foldGutter: true,
-    lineWrapping: true,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
-    // 启用代码折叠相关功能:结束
-    styleActiveLine: true, // 光标行高亮
-  });
-  editor.on('change', () => {
-    // 触发v-model的双向绑定
-    emits('update:modelValue', editor?.getValue());
+  editor = new EditorView({
+    doc: props.modelValue,
+    parent: codeEditorNode.value,
+    extensions: [
+      basicSetup,
+      keymap.of([indentWithTab]),
+      javascript(),
+      indentOnInput(),
+      EditorView.updateListener.of((v) => {
+        if (v.docChanged) {
+          clearTimeout(changeTimer);
+          changeTimer = setTimeout(() => {
+            onDocChange();
+          }, 300);
+        }
+      }),
+    ],
   });
 });
-onBeforeUnmount(() => {
-  if (editor !== null) {
-    editor.toTextArea();
-    editor = null;
-  }
-});
-
-function setValue(text:string) {
-  editor.setValue(text);
-}
 
 defineExpose({
   setValue,
 });
-
 </script>
 <template>
-  <textarea
-    ref="codeEditorNode"
-  />
+  <div class="code-editor" ref="codeEditorNode" />
 </template>
 <style>
-.CodeMirror {
-    height: 100%;
-        line-height: 1.5rem;
-        font-size: 1rem;
-        /* border: none;
-        outline: none; */
-        background: none;
+.code-editor {
+  line-height: 1.5rem;
+  font-size: 1rem;
+  background: none;
+}
+
+.cm-editor {
+  height: 100%;
+}
+
+.cm-focused {
+  outline: none !important;
 }
 </style>

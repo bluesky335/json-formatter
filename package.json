@@ -9,22 +9,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "codemirror": "^5.65.2",
-    "vue": "^3.2.31",
-    "vue-class-component": "^8.0.0-rc.1"
+    "@codemirror/lang-javascript": "^6.2.3",
+    "codemirror": "^6.0.1",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.18.0",
-    "@typescript-eslint/parser": "^5.18.0",
-    "@vitejs/plugin-vue": "^2.3.0",
-    "eslint": "^8.12.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-vue": "^8.6.0",
-    "sass": "^1.50.0",
-    "typescript": "^4.5.4",
-    "vite": "^2.9.0",
-    "vue-tsc": "^0.29.8"
+    "@types/codemirror": "^5.60.15",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "eslint": "^9.23.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-vue": "^10.0.0",
+    "sass": "^1.86.0",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3",
+    "vue-tsc": "^2.2.8"
   }
 }
