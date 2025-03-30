@@ -5,7 +5,7 @@ import { indentOnInput } from "@codemirror/language";
 import { indentWithTab } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
 
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const codeEditorNode = ref(undefined);
 
@@ -23,11 +23,15 @@ const emits = defineEmits<{ (e: "update:modelValue", value: string): void }>();
 let changeTimer = -1;
 
 const onDocChange = () => {
-  setTimeout(() => {
-    const newDoc = editor?.state.doc.toString();
-    if (newDoc) emits("update:modelValue", newDoc);
-  }, 1000);
+  const newDoc = editor?.state.doc.toString();
+  if (newDoc) emits("update:modelValue", newDoc);
 };
+
+function setValue(text: string) {
+  editor?.dispatch({
+    changes: { from: 0, to: editor.state.doc.length, insert: text },
+  });
+}
 
 onMounted(() => {
   editor = new EditorView({
@@ -41,18 +45,14 @@ onMounted(() => {
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
           clearTimeout(changeTimer);
-          changeTimer = setTimeout(onDocChange, 100);
+          changeTimer = setTimeout(() => {
+            onDocChange();
+          }, 300);
         }
       }),
     ],
   });
 });
-
-function setValue(text: string) {
-  editor?.dispatch({
-    changes: { from: 0, to: editor.state.doc.length, insert: text },
-  });
-}
 
 defineExpose({
   setValue,
@@ -62,13 +62,17 @@ defineExpose({
   <div class="code-editor" ref="codeEditorNode" />
 </template>
 <style>
-.CodeMirror {
-  height: 100%;
+.code-editor {
   line-height: 1.5rem;
   font-size: 1rem;
   background: none;
 }
+
 .cm-editor {
   height: 100%;
+}
+
+.cm-focused {
+  outline: none !important;
 }
 </style>

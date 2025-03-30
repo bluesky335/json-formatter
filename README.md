@@ -6,7 +6,7 @@
 
 A lite web app to format and preview json string.
 
-**[Try it on line](https://bluesky335.github.io/json-formatter-website/)**
+**[Try it on line](https://bluesky335.github.io/json-formatter/)**
 
 <p align="center">
   <img width="800" lt="logo" src="./screenshot/screenshot.png" class="logo">

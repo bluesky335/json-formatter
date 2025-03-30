@@ -1,11 +1,11 @@
-<script setup  lang="ts">
-import { ref, watch } from 'vue';
-import JsonNode from './JsonNode.vue';
+<script setup lang="ts">
+import { ref, watch } from "vue";
+import JsonNode from "./JsonNode.vue";
 
 const props = defineProps({
   json: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
@@ -24,7 +24,6 @@ watch(props, (newValue) => {
     jsonError.value = error as Error;
   }
 });
-
 </script>
 <template>
   <div class="preview-container">
@@ -39,9 +38,10 @@ watch(props, (newValue) => {
 </template>
 <style lang="scss" scoped>
 .preview-container {
-    text-align: left;
-    line-height: 2rem;
-    overflow-y: auto;
-    word-wrap: break-word;
+  text-align: left;
+  line-height: 2rem;
+  overflow: auto;
+  word-wrap: break-word;
+  height: 100%;
 }
 </style>

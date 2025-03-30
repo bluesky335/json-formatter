@@ -107,10 +107,10 @@ import {
   withDefaults,
 } from "vue";
 interface Props {
-  jsonKey?: unknown;
-  jsonValue?: unknown;
-  showKey: boolean;
-  isLastItem: boolean;
+  jsonKey?: any;
+  jsonValue: any;
+  showKey?: boolean;
+  isLastItem?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -124,7 +124,7 @@ const jsonValueKeys = ref<string[]>([]);
 
 const showSubNode = ref(true);
 
-const jsonStringObject = ref<unknown | null>(null);
+const jsonStringObject = ref<any>(null);
 const updateKeysAndType = () => {
   if (props.jsonValue !== undefined) {
     type.value = getTypeOf(props.jsonValue);
@@ -237,6 +237,8 @@ onMounted(() => {
 
 .json-node {
   font-weight: bold;
+  word-break: keep-all;
+  white-space: nowrap;
 }
 .type-string {
   color: #0dbc79;
