@@ -61,7 +61,13 @@ function escapeJson() {
 
 function unEscapeJson() {
   try {
-    const obj = JSON.parse(text.value);
+    let str = text.value;
+    if (str && (/^ ?`.*?` ?$/.test(str) || /^ ?'.*?' ?$/.test(str))) {
+      str = eval(`let x = ${str}\nx`);
+      codeMirror.value?.setValue(JSON.stringify(JSON.parse(str)));
+      return;
+    }
+    const obj = JSON.parse(str);
     if (typeof obj === "string") {
       codeMirror.value?.setValue(obj);
     }
