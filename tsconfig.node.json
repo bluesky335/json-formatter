@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "composite": true,
     "module": "esnext",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": ["vite/client","node"]
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts"],
+  "exclude": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
 }

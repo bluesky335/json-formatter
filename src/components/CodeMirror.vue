@@ -45,7 +45,7 @@ onMounted(() => {
       EditorView.updateListener.of((v) => {
         if (v.docChanged) {
           clearTimeout(changeTimer);
-          changeTimer = setTimeout(() => {
+          changeTimer = window.setTimeout(() => {
             onDocChange();
           }, 300);
         }
