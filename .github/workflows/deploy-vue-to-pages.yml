@@ -35,7 +35,7 @@ jobs:
       - name: 编译项目
         env:
             GOOGLE_ANALYTICS: ${{ vars.GOOGLE_ANALYTICS }}
-        run: npm install && npm run build
+        run: echo $GOOGLE_ANALYTICS && npm install && npm run build
 
       - name: 上传文件到制品库
         uses: actions/upload-pages-artifact@v3
