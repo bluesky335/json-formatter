@@ -11,7 +11,7 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          GoogleAnalytics: process.env.GoogleAnalytics
+          GoogleAnalytics: process.env.GOOGLE_ANALYTICS
         }
       },
     }),
