@@ -7,6 +7,25 @@
   padding: 0 20px;
   border-bottom: 1px solid #f0f0f0;
 }
+.help {
+  cursor: pointer;
+  display: inline-flex;
+  width: 15px;
+  height: 15px;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  background-color: #41b883;
+  color: white;
+  font-size: 16px;
+  border-radius: 12.5px;
+}
+
+.help-view {
+  position: absolute;
+  top: 70px;
+  left: 300px;
+}
 .json-formatter {
   text-align: left;
   height: 100%;
@@ -70,6 +89,7 @@
         box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
       }
       img {
+        -webkit-user-select: none;
         user-select: none;
         width: 90%;
         height: 90%;
@@ -96,4 +116,8 @@
     // background-color: #eee;
         box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
   }
+}
+
+.hide {
+  display: none;
 }

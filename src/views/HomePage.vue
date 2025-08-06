@@ -3,11 +3,14 @@ import { ref, computed } from "vue";
 import JsonPreview from "../components/JsonPreview.vue";
 import CodeMirrorVue from "../components/CodeMirror.vue";
 import DragEdge from "../components/DragEdge.vue";
+import HelpView from "../components/HelpView.vue";
 
 const text = ref("");
 const isOpen = ref(true);
 const editorWidth = ref(50);
 const isInTransition = ref(false);
+const showHelp = ref(false);
+
 const strings = ref({
   en: {
     title: "SON Format",
@@ -119,6 +122,7 @@ function togleFullView() {
       <div>
         <span style="color: #41b883; font-size: 3.5rem">J</span
         >{{ local.title }}
+        <span class="help" @mouseover="showHelp = true" @mouseout="showHelp = false">?</span>
       </div>
       <div class="github">
         <a href="https://github.com/bluesky335/json-formatter">
@@ -126,6 +130,7 @@ function togleFullView() {
         </a>
       </div>
     </div>
+    <HelpView class="help-view" :class="{'hide':!showHelp}"></HelpView>
     <div class="main" :class="isOpen ? 'main-open' : 'main-close'">
       <div
         class="code-editor-wrap"
