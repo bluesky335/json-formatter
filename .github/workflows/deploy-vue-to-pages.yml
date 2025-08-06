@@ -32,10 +32,9 @@ jobs:
       - name: checkout 代码
         uses: actions/checkout@v4
 
-      - name: 设置环境变量
-        run: echo "GOOGLE_ANALYTICS=`${{ vars.GOOGLE_ANALYTICS }}`" >> $GITHUB_ENV
-
       - name: 编译项目
+        env:
+            GOOGLE_ANALYTICS: ${{ vars.GOOGLE_ANALYTICS }}
         run: npm install && npm run build
 
       - name: 上传文件到制品库
