@@ -31,8 +31,13 @@ jobs:
     steps:
       - name: checkout 代码
         uses: actions/checkout@v4
+
+      - name: 设置环境变量
+        run: echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
+
       - name: 编译项目
         run: npm install && npm run build
+        
       - name: 上传文件到制品库
         uses: actions/upload-pages-artifact@v3
         with:
